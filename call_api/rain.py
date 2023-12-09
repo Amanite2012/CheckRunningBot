@@ -28,5 +28,9 @@ def get_rain():
   url_response = requests.get(url)
   data = url_response.content
   print(url_response.content)
+  with open('mon_fichier.txt', 'w') as f:
+
+    # Écriture de la chaîne de caractères dans le fichier.
+    f.write(data.decode("utf-8"))
 
   return 0
