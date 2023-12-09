@@ -1,6 +1,4 @@
-import date
-import call_api.rain
+import call_api.rain as rain
 
-def main():
-    rain.get_rain()
-    return 0
+
+rain.get_rain()
