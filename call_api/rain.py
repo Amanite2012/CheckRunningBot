@@ -5,7 +5,7 @@ import dotenv
 import re
 import requests
 import pandas as pd
-import json
+import xml.etree.ElementTree as ET
 
 def is_valid_date(date_string):
   pattern = r"\d{4}-\d{2}-\d{2}\s+\d{2}:\d{2}:\d{2}"
@@ -27,10 +27,12 @@ def get_rain():
 
   url_response = requests.get(url)
   data = url_response.content
-  print(url_response.content)
   with open('mon_fichier.txt', 'w') as f:
 
     # Écriture de la chaîne de caractères dans le fichier.
     f.write(data.decode("utf-8"))
-
+  # Parsing tree XML
+  tree = ET.parse('mon_fichier.txt')
+  root = tree.getroot()
+  print(root)
   return 0
