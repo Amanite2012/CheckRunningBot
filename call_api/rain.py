@@ -17,7 +17,7 @@ def build_tuple_time_rain(tree):
     # Temperature 2m from ground
     temperature = child.find('temperature')[0].text
     timestamp = child.get('timestamp')
-    ret.querry(timestamp, temperature)
+    ret.append((timestamp, temperature))
   return ret
 
 def get_rain():

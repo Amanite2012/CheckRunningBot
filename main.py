@@ -3,4 +3,4 @@ import marketing.graph as graph
 
 
 list_time_rain = rain.get_rain()
-graph(list_time_rain)
+graph.build_rain_graph(list_time_rain)
