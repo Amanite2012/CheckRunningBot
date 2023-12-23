@@ -40,6 +40,6 @@ def get_rain():
   tree = ET.parse('mon_fichier.xml')
 
   root = tree.getroot()
-  list_tree = build_tuple_time_rain(root)
+  list_time_rain = build_tuple_time_rain(root)
   
-  return 0
+  return list_time_rain
