@@ -7,25 +7,22 @@ import requests
 import pandas as pd
 import xml.etree.ElementTree as ET
 
-def is_valid_date(date_string):
-  pattern = r"\d{4}-\d{2}-\d{2}\s+\d{2}:\d{2}:\d{2}"
-  match = re.match(pattern, date_string)
-  return match is not None
-
 import os
 import requests
 import dotenv
 
-def list_tree(tree):
+def build_tuple_time_rain(tree):
   ret = []
-  for child in tree:
-    if child.tag == "echeance":
-      ret.append(child)
+  for child in tree.findall('echeance'):
+    # Temperature 2m from ground
+    temperature = child.find('temperature')[0].text
+    timestamp = child.get('timestamp')
+    ret.querry(timestamp, temperature)
   return ret
 
 def get_rain():
   dotenv.load_dotenv()
-  
+  """
   position_lat = os.getenv("POSITION_LAT")
   position_lon = os.getenv("POSITION_LON")
  
@@ -39,9 +36,10 @@ def get_rain():
     f.write(data.decode("utf-8"))
   # Parsing tree XML
   # Objective si to get a tree of dates and rain values
+  """
   tree = ET.parse('mon_fichier.xml')
 
   root = tree.getroot()
-  list_tree(root)
+  list_tree = build_tuple_time_rain(root)
   
   return 0
