@@ -17,7 +17,6 @@ import requests
 import dotenv
 
 def get_rain():
-  print("get_rain")
   dotenv.load_dotenv()
 
   position_lat = os.getenv("POSITION_LAT")
@@ -32,6 +31,8 @@ def get_rain():
     # Écriture de la chaîne de caractères dans le fichier.
     f.write(data.decode("utf-8"))
   # Parsing tree XML
+  # Objective si to get a tree of dates and rain values
+  
   tree = ET.parse('mon_fichier.txt')
   root = tree.getroot()
   print(root)
