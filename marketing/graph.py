@@ -13,14 +13,14 @@ def build_list_thermos(list_tuple):
     Input: list of tuple (time, rain)
     Output: list of rain
     """
-    return [temp for (time, temp) in list_tuple]
+    return [temp for (time, temp, rain, humidity) in list_tuple]
 
 def build_list_time(list_tuple):
     """
     Input: list of tuple (time, rain)
     Output: list of time
     """
-    ret = [time for (time, temp) in list_tuple]
+    ret = [time for (time, temp, rain, humidity) in list_tuple]
     # Makes the date more readable
     for i in ret:
         ret[ret.index(i)] = i[5:13] + "h"

@@ -11,13 +11,15 @@ import os
 import requests
 import dotenv
 
-def build_tuple_time_rain(tree):
+def build_tuple_time_thermo_humidity_rain(tree):
   ret = []
   for child in tree.findall('echeance'):
     # Temperature 2m from ground
     temperature = child.find('temperature')[0].text
+    humidity = child.find('humidite')[0].text
+    rain = child.find('pluie').text
     timestamp = child.get('timestamp')
-    ret.append((timestamp, temperature))
+    ret.append((timestamp, temperature, rain, humidity))
   return ret
 
 def get_rain():
@@ -40,6 +42,6 @@ def get_rain():
   tree = ET.parse('mon_fichier.xml')
 
   root = tree.getroot()
-  list_time_rain = build_tuple_time_rain(root)
-  
-  return list_time_rain
+  list_meteo = build_tuple_time_thermo_humidity_rain(root)
+  print(list_meteo)
+  return list_meteo
