@@ -22,12 +22,12 @@ def build_tuple_time_rain(tree):
 
 def get_rain():
   dotenv.load_dotenv()
-  """
+  
   position_lat = os.getenv("POSITION_LAT")
   position_lon = os.getenv("POSITION_LON")
  
-  url = f"http://www.infoclimat.fr/public-api/gfs/xml?_ll={position_lat},{position_lon}&_auth=CRNRRgZ4VXdVeAE2UiRVfFY%2BVGEKfAYhBXkAYwlsUi9ROlEwVDQAZgNtAH1SfQs9Un9VNg41BTVUP1EpWCpXNgljUT0GbVUyVToBZFJ9VX5WeFQ1CioGIQVnAG4JYVIvUTNRNlQ1AHwDbQBkUmALIVJpVSoOLgU8VDBRNlg0VzIJaFEzBmVVN1U%2FAXxSfVVnVmBUMgpmBm0FZgBuCWFSMlE3UWFUMwBiA28AfFJlCzlSaFUzDjAFNVQ1UT5YKlcrCRNRRgZ4VXdVeAE2UiRVfFYwVGoKYQ%3D%3D&_c=b60bcb11da3d5217338f5960bdd2180a"
-
+  url = f"http://www.infoclimat.fr/public-api/gfs/xml?_ll={position_lat},{position_lon}&_auth=BhwEE1UrU3FWe1ZhAHYFLFI6UmcNe1VyBXkHZF86VyoEb1U0BmYDZQBuWidXeAcxWHUPbA02V2cLYFUtXS9RMAZsBGhVPlM0VjlWMwAvBS5SfFIzDS1VcgVvB2JfLFc1BG9VNQZ7A2AAblo6V3kHMFhoD3ANLVduC29VMl0zUTYGZgRmVT9TMVY6VisALwU3UmRSOg06VWsFZAdmXzVXNgRlVTQGYQMwAGxaJldnBzpYYg9oDTNXbAtsVTddL1EtBhwEE1UrU3FWe1ZhAHYFLFI0UmwNZg%3D%3D&_c=9f4d75a8f93f20382a6b14d70475d361"
+  print(url)
   url_response = requests.get(url)
   data = url_response.content
   with open('mon_fichier.xml', 'w') as f:
@@ -36,7 +36,7 @@ def get_rain():
     f.write(data.decode("utf-8"))
   # Parsing tree XML
   # Objective si to get a tree of dates and rain values
-  """
+  
   tree = ET.parse('mon_fichier.xml')
 
   root = tree.getroot()
