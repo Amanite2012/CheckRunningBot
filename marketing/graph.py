@@ -13,7 +13,10 @@ def build_list_thermos(list_tuple):
     Input: list of tuple (time, rain)
     Output: list of rain
     """
-    return [temp for (time, temp, rain, humidity) in list_tuple]
+    ret = [temp for (time, temp, rain, humidity) in list_tuple]
+    for i in ret:
+        ret[ret.index(i)] = float(i)-273.15
+    return ret
 
 def build_list_time(list_tuple):
     """
