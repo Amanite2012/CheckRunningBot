@@ -1,14 +1,12 @@
 # Input: dates[]
 # Output: int[] -> Rain
 
-import dotenv
 import re
 import requests
 import pandas as pd
 import xml.etree.ElementTree as ET
 
 import os
-import requests
 import dotenv
 
 def build_tuple_time_thermo_humidity_rain(tree):
