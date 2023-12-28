@@ -1,17 +1,16 @@
 # Import discord.py
 import asyncio
 import random
-import json
-import requests
-import os
+# Send msg
+import json, requests
+# Secrets
+import os, dotenv
 
 # Objective calculate optimal conditions to go for a run
 
-# Bot discord
-# Command !prevision
-
 def send_message():
-    webhook_url = os.getenv("DISCORD_WEBHOOK")
+    dotenv.load_dotenv()
+    webhook_url = os.getenv("WEBHOOK_DISCORD")
     print(webhook_url)
     data = {
     "content": "Bonjour et bienvuenue pour les prévisions de la semaine TODO.\nVoici les prévisions:\n**Lundi**: TODO\n**Mardi**: TODO",
