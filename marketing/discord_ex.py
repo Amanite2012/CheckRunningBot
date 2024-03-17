@@ -10,7 +10,7 @@ import os, dotenv
 
 # Input: list of tuples (time, rain, temperature, humidity)
 # Output dictionnary for recommandations
-def build_reco(string):
+def build_reco(list_tuple):
     ret = {"01 h": None, "04h": None, "07h": None, "10h": None, "13h": None, "16h": None, "19h": None, "22h": None}
     return ret
 
