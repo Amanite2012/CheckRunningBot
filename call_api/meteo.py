@@ -26,7 +26,7 @@ def get_rain():
   position_lat = os.getenv("POSITION_LAT")
   position_lon = os.getenv("POSITION_LON")
  
-  url = f"http://www.infoclimat.fr/public-api/gfs/xml?_ll={position_lat},{position_lon}&_auth=BhwEE1UrU3FWe1ZhAHYFLFI6UmcNe1VyBXkHZF86VyoEb1U0BmYDZQBuWidXeAcxWHUPbA02V2cLYFUtXS9RMAZsBGhVPlM0VjlWMwAvBS5SfFIzDS1VcgVvB2JfLFc1BG9VNQZ7A2AAblo6V3kHMFhoD3ANLVduC29VMl0zUTYGZgRmVT9TMVY6VisALwU3UmRSOg06VWsFZAdmXzVXNgRlVTQGYQMwAGxaJldnBzpYYg9oDTNXbAtsVTddL1EtBhwEE1UrU3FWe1ZhAHYFLFI0UmwNZg%3D%3D&_c=9f4d75a8f93f20382a6b14d70475d361"
+  url = f"http://www.infoclimat.fr/public-api/gfs/xml?_ll={position_lat},{position_lon}&_auth=%3D%3D&_c=9f4d75a8f93f20382a6b14d70475d361"
   print(url)
   url_response = requests.get(url)
   data = url_response.content
