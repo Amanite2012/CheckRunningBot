@@ -4,7 +4,7 @@ import random
 # Send msg
 import json, requests
 # Secrets
-import os, dotenv
+import os
 import requests_cache
 # Objective calculate optimal conditions to go for a run
 
