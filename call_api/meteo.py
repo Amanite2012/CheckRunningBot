@@ -1,25 +1,28 @@
-# Input: dates[]
-# Output: int[] -> Rain
+
 import openmeteo_requests
-import re
-import requests
 import pandas as pd
 import xml.etree.ElementTree as ET
+from retry_requests import retry
+import os,dotenv
+import requests_cache
 
-import os
-import dotenv
 
 def get_meteo_pd():
-
+  dotenv.load_dotenv()
   cache_session = requests_cache.CachedSession('.cache', expire_after = 3600)
   retry_session = retry(cache_session, retries = 5, backoff_factor = 0.2)
   openmeteo = openmeteo_requests.Client(session = retry_session)
   url = "https://api.open-meteo.com/v1/forecast"
+
+  lat = os.getenv("LATITUDE")
+  lon = os.getenv("LONGITUDE")
+
   params = {
-    "latitude": 52.52,
-    "longitude": 13.41,
+    "latitude": lat,
+    "longitude": lon,
     "hourly": ["temperature_2m", "relative_humidity_2m", "rain", "cloud_cover"]
   }
+  
   responses = openmeteo.weather_api(url, params=params)
 
   # Process first location. Add a for-loop for multiple locations or weather models
@@ -46,5 +49,5 @@ def get_meteo_pd():
   hourly_data["cloud_cover"] = hourly.Variables(3).ValuesAsNumpy()
 
   hourly_dataframe = pd.DataFrame(data = hourly_data)
-  print(hourly_dataframe)
+  
   return hourly_dataframe
