@@ -1,6 +1,6 @@
 # Input: dates[]
 # Output: int[] -> Rain
-
+import openmeteo_requests
 import re
 import requests
 import pandas as pd
@@ -9,37 +9,42 @@ import xml.etree.ElementTree as ET
 import os
 import dotenv
 
-def build_tuple_time_thermo_humidity_rain(tree):
-  ret = []
-  for child in tree.findall('echeance'):
-    # Temperature 2m from ground
-    temperature = child.find('temperature')[0].text
-    humidity = child.find('humidite')[0].text
-    rain = child.find('pluie').text
-    timestamp = child.get('timestamp')
-    ret.append((timestamp, temperature, rain, humidity))
-  return ret
+def get_meteo_pd():
 
-def get_rain():
-  dotenv.load_dotenv()
-  
-  position_lat = os.getenv("POSITION_LAT")
-  position_lon = os.getenv("POSITION_LON")
- 
-  url = f"http://www.infoclimat.fr/public-api/gfs/xml?_ll={position_lat},{position_lon}&_auth=%3D%3D&_c=9f4d75a8f93f20382a6b14d70475d361"
-  print(url)
-  url_response = requests.get(url)
-  data = url_response.content
-  with open('mon_fichier.xml', 'w') as f:
+  cache_session = requests_cache.CachedSession('.cache', expire_after = 3600)
+  retry_session = retry(cache_session, retries = 5, backoff_factor = 0.2)
+  openmeteo = openmeteo_requests.Client(session = retry_session)
+  url = "https://api.open-meteo.com/v1/forecast"
+  params = {
+    "latitude": 52.52,
+    "longitude": 13.41,
+    "hourly": ["temperature_2m", "relative_humidity_2m", "rain", "cloud_cover"]
+  }
+  responses = openmeteo.weather_api(url, params=params)
 
-    # Écriture de la chaîne de caractères dans le fichier.
-    f.write(data.decode("utf-8"))
-  # Parsing tree XML
-  # Objective si to get a tree of dates and rain values
-  
-  tree = ET.parse('mon_fichier.xml')
+  # Process first location. Add a for-loop for multiple locations or weather models
+  response = responses[0]
+  print(f"Coordinates {response.Latitude()}°N {response.Longitude()}°E")
+  print(f"Elevation {response.Elevation()} m asl")
+  print(f"Timezone {response.Timezone()}{response.TimezoneAbbreviation()}")
+  print(f"Timezone difference to GMT+0 {response.UtcOffsetSeconds()} s")
 
-  root = tree.getroot()
-  list_meteo = build_tuple_time_thermo_humidity_rain(root)
-  print(list_meteo)
-  return list_meteo
+  # Process hourly data. The order of variables needs to be the same as requested.
+  hourly = response.Hourly()
+  hourly_temperature_2m = hourly.Variables(0).ValuesAsNumpy()
+
+  hourly_data = {"date": pd.date_range(
+    start = pd.to_datetime(hourly.Time(), unit = "s", utc = True),
+    end = pd.to_datetime(hourly.TimeEnd(), unit = "s", utc = True),
+    freq = pd.Timedelta(seconds = hourly.Interval()),
+    inclusive = "left"
+  )}
+
+  hourly_data["temperature_2m"] = hourly_temperature_2m
+  hourly_data["relative_humidity_2m"] = hourly.Variables(1).ValuesAsNumpy()
+  hourly_data["rain"] = hourly.Variables(2).ValuesAsNumpy()
+  hourly_data["cloud_cover"] = hourly.Variables(3).ValuesAsNumpy()
+
+  hourly_dataframe = pd.DataFrame(data = hourly_data)
+  print(hourly_dataframe)
+  return hourly_dataframe
