@@ -7,5 +7,5 @@ dataframe = meteo.get_meteo_pd()
 # Send the message to Discord
 discord_ex.send_message(dataframe)
 # Build the graph
-graph.build_rain_graph(dataframe)
+#graph.build_rain_graph(dataframe)
 # Send the message to Discord
