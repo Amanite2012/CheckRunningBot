@@ -14,17 +14,15 @@ def get_meteo_pd():
   openmeteo = openmeteo_requests.Client(session = retry_session)
   url = "https://api.open-meteo.com/v1/forecast"
 
-  lat = os.getenv("LATITUDE")
-  lon = os.getenv("LONGITUDE")
+  lat = os.getenv("POSITION_LAT")
+  lon = os.getenv("POSITION_LON")
 
   params = {
     "latitude": lat,
     "longitude": lon,
     "hourly": ["temperature_2m", "relative_humidity_2m", "rain", "cloud_cover"]
   }
-  
   responses = openmeteo.weather_api(url, params=params)
-
   # Process first location. Add a for-loop for multiple locations or weather models
   response = responses[0]
   print(f"Coordinates {response.Latitude()}°N {response.Longitude()}°E")
