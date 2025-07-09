@@ -29,7 +29,7 @@ def send_message(dataframe):
         )
 
     # Discord webhook URL
-    webhook_url = os.getenv("DISCORD_WEBHOOK_URL")
+    webhook_url = os.getenv("WEBHOOK_DISCORD")
 
     # Send the message
     payload = {
